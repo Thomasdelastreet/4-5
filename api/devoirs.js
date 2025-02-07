@@ -1,27 +1,23 @@
-const pronote = require('pronote-api');
+const Pronote = require('pronote-api-maintained');
 
-// Exemple
-const url = 'https://demo.index-education.net/pronote/';
-const username = 't.bernard514';
-const password = 'ThomasB38*';
+(async () => {
+  try {
+    // Remplacez les paramètres par les valeurs de votre établissement
+    const urlPronote = "https://0383253e.index-education.net/pronote/eleve.html?identifiant=rcM9th37tHBbtPyU";
+    const username = "t.bernard514";
+    const password = "ThomasB38*";
+    const cas = "eleve"; // ou 'parent', 'enseignant' selon votre cas
 
-async function main()
-{
-    const session = await pronote.login(url, username, password/*, cas*/);
+    // Connexion à Pronote
+    const session = await Pronote.login(urlPronote, username, password, cas);
     
-    const timetable = await session.timetable(); // Récupérer l'emploi du temps d'aujourd'hui
-
-    console.log(`L'élève a ${timetable.length} cours aujourd'hui`); 
-    console.log(`et a pour l'instant une moyenne de ${marks.averages.student} ce trimestre.`);
+    // Exemple : récupération des devoirs
+    const devoirs = await session.homeworks();
+    console.log("Devoirs récupérés :", devoirs);
     
-    // etc. les fonctions utilisables sont 'timetable', 'marks', 'contents', 'evaluations', 'absences', 
-    // 'homeworks', 'infos', et 'menu', sans oublier les champs 'user' et 'params' qui regorgent d'informations.
-}
-
-main().catch(err => {
-    if (err.code === pronote.errors.WRONG_CREDENTIALS.code) {
-        console.error('Mauvais identifiants');    
-    } else {
-        console.error(err);
-    }
-});
+    // N'oubliez pas de déconnecter la session à la fin pour libérer les ressources
+    await session.logout();
+  } catch (error) {
+    console.error("Erreur lors de la connexion ou de la récupération des données :", error);
+  }
+})();
