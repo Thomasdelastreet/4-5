@@ -1,3 +1,0 @@
-mkdir pronote-api && cd pronote-api
-npm init -y
-npm install express pronote-api cors
