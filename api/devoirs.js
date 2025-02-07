@@ -1,7 +1,7 @@
 module.exports = async (req, res) => {
   try {
     // Utilisez l'URL de votre API Pronote ou une logique de test
-    const response = await fetch('https://monapi-pronote.com/devoirs');
+    const response = await fetch('https://demo.index-education.net/pronote/');
     if (!response.ok) throw new Error("Erreur API");
     const devoirs = await response.json();
     res.status(200).json(devoirs);
